@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 products = pd.read_csv("data/processed/products.csv")
 
@@ -10,7 +11,7 @@ products = products.drop_duplicates()
 # -------------------------
 # 2 Replace blank strings with NaN
 # -------------------------
-products = products.replace(r'^\s*$', None, regex=True)
+products = products.replace(r'^\s*$', np.nan, regex=True)
 
 # -------------------------
 # 3 Fill missing values
