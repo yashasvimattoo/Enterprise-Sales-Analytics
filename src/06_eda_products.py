@@ -1,29 +1,22 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# -------------------------
-# 1 Load cleaned dataset
-# -------------------------
 products = pd.read_csv("data/processed/products_cleaned.csv")
 
 print("Dataset shape:", products.shape)
 print("\nColumns:\n", products.columns)
 
-# -------------------------
-# 2 Dataset info
-# -------------------------
+
 print("\nDataset Info:\n")
 print(products.info())
 
-# -------------------------
-# 3 Missing values check
-# -------------------------
+
 print("\nMissing values:\n")
 print(products.isnull().sum())
 
-# -------------------------
-# 4 Product category distribution
-# -------------------------
+
+#  Product category distribution
+
 print("\nProduct categories:\n")
 print(products["Product_Category"].value_counts())
 print("Top Category:", products["Product_Category"].value_counts().idxmax())
@@ -38,9 +31,8 @@ plt.tight_layout()
 plt.savefig("reports/figures/product_category_distribution.png")
 plt.close()
 
-# -------------------------
-# 5 Product brand distribution
-# -------------------------
+#  Product brand distribution
+
 print("\nTop brands:\n")
 print(products["Product_Brand"].value_counts().head(10))
 print("Top Brand:", products["Product_Brand"].value_counts().idxmax())
@@ -55,9 +47,9 @@ plt.tight_layout()
 plt.savefig("reports/figures/top_product_brands.png")
 plt.close()
 
-# -------------------------
-# 6 Product type distribution
-# -------------------------
+
+#  Product type distribution
+
 print("\nProduct types:\n")
 print(products["Product_Type"].value_counts().head(10))
 

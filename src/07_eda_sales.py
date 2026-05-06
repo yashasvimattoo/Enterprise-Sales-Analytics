@@ -1,29 +1,22 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# -------------------------
-# 1 Load cleaned dataset
-# -------------------------
+
 sales = pd.read_csv("data/processed/sales_cleaned.csv")
 
 print("Dataset shape:", sales.shape)
 print("\nColumns:\n", sales.columns)
 
-# -------------------------
-# 2 Dataset info
-# -------------------------
+
 print("\nDataset Info:\n")
 print(sales.info())
 
-# -------------------------
-# 3 Missing values
-# -------------------------
+
 print("\nMissing values:\n")
 print(sales.isnull().sum())
 
-# -------------------------
-# 4 Revenue statistics
-# -------------------------
+#  Revenue statistics
+
 print("\nRevenue statistics:\n")
 print(sales["Total_Amount"].describe())
 
@@ -41,9 +34,9 @@ plt.tight_layout()
 plt.savefig("reports/figures/revenue_distribution.png")
 plt.close()
 
-# -------------------------
-# 5 Payment method distribution
-# -------------------------
+
+# Payment method distribution
+
 print("\nPayment methods:\n")
 print(sales["Payment_Method"].value_counts())
 
@@ -60,9 +53,9 @@ plt.tight_layout()
 plt.savefig("reports/figures/payment_method_distribution.png")
 plt.close()
 
-# -------------------------
-# 6 Shipping methods
-# -------------------------
+
+#  Shipping methods
+
 print("\nShipping methods:\n")
 print(sales["Shipping_Method"].value_counts())
 
@@ -79,15 +72,14 @@ plt.tight_layout()
 plt.savefig("reports/figures/shipping_method_distribution.png")
 plt.close()
 
-# -------------------------
-# 7 Order status
-# -------------------------
+
+#  Order status
+
 print("\nOrder status:\n")
 print(sales["Order_Status"].value_counts())
 
-# -------------------------
-# 8 Ratings distribution
-# -------------------------
+#  Ratings distribution
+
 print("\nRatings distribution:\n")
 print(sales["Ratings"].value_counts())
 
@@ -104,23 +96,22 @@ plt.tight_layout()
 plt.savefig("reports/figures/ratings_distribution.png")
 plt.close()
 
-# -------------------------
-# 9 Product category sales
-# -------------------------
+#  Product category sales
+
 print("\nSales by product category:\n")
 print(sales["Product_Category"].value_counts())
 
 print("Top Category:", sales["Product_Category"].value_counts().idxmax())
 
-# -------------------------
-# 10 Monthly sales trend
-# -------------------------
+
+#  Monthly sales trend
+
 monthly_sales = sales.groupby("Month")["Total_Amount"].sum().sort_index()
 
 print("\nMonthly sales trend:\n")
 print(monthly_sales)
 
-# 🔥 NEW: Peak month
+
 print("Peak Revenue Month:", monthly_sales.idxmax())
 
 plt.figure()

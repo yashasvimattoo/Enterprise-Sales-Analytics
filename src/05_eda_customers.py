@@ -1,22 +1,15 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# -------------------------
-# 1 Load cleaned dataset
-# -------------------------
 customers = pd.read_csv("data/processed/customers_cleaned.csv")
 
 print("Dataset shape:", customers.shape)
 print("\nColumns:\n", customers.columns)
 
-# -------------------------
-# 2 Basic info
-# -------------------------
+
 print("\nDataset Info:\n")
 print(customers.info())
-# -------------------------
-# 3 Age statistics
-# -------------------------
+
 print("\nAge statistics:\n")
 print(customers["Age"].describe())
 # AGE DISTRIBUTION CHART
@@ -29,9 +22,7 @@ plt.tight_layout()
 plt.savefig("reports/figures/age_distribution.png")
 plt.close()
 
-# -------------------------
-# 4 Gender distribution
-# -------------------------
+# Gender Distrubution
 print("\nGender distribution:\n")
 print(customers["Gender"].value_counts())
 
@@ -43,9 +34,7 @@ plt.tight_layout()
 plt.savefig("reports/figures/gender_distribution.png")
 plt.close()
 
-# -------------------------
-# 5 Customer segment distribution
-# -------------------------
+#Customer Distribution
 print("\nCustomer segments:\n")
 print(customers["Customer_Segment"].value_counts())
 
@@ -58,15 +47,15 @@ plt.tight_layout()
 plt.savefig("reports/figures/customer_segment_distribution.png")
 plt.close()
 
-# -------------------------
-# 6 Income distribution
-# -------------------------
+
+# Income distribution
+
 print("\nIncome levels:\n")
 print(customers["Income"].value_counts())
 
-# -------------------------
-# 7 Top cities
-# -------------------------
+
+# Top cities
+
 print("\nTop cities:\n")
 print(customers["City"].value_counts().head(10))
 
@@ -79,8 +68,7 @@ plt.tight_layout()
 plt.savefig("reports/figures/top_cities.png")
 plt.close()
 
-# -------------------------
-# 8 Country distribution
-# -------------------------
+#  Country distribution
+
 print("\nCountry distribution:\n")
 print(customers["Country"].value_counts())

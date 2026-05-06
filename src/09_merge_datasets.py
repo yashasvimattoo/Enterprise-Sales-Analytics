@@ -1,34 +1,21 @@
 import pandas as pd
 
-print("Loading datasets...")
-
-# -------------------------
-# 1 Load datasets
-# -------------------------
 customers = pd.read_csv("data/processed/customers_cleaned.csv")
 products = pd.read_csv("data/processed/products_cleaned.csv")
 sales = pd.read_csv("data/processed/sales_kpi_features.csv")
 
-# -------------------------
-# 2 Standardize text (IMPORTANT)
-# -------------------------
+
 sales["Product_Name"] = sales["Product_Name"].str.strip().str.title()
 sales["Product_Category"] = sales["Product_Category"].str.strip().str.title()
 
 products["Product_Name"] = products["Product_Name"].str.strip().str.title()
 products["Product_Category"] = products["Product_Category"].str.strip().str.title()
 
-# -------------------------
-# 3 Remove duplicate products (CRITICAL FIX)
-# -------------------------
+
 products = products.drop_duplicates(
     subset=["Product_Name", "Product_Category"]
 )
 
-# -------------------------
-# 4 Merge: Sales + Customers
-# -------------------------
-print("Merging sales with customers...")
 
 data = sales.merge(
     customers,
@@ -38,10 +25,6 @@ data = sales.merge(
 
 print("Shape after customer merge:", data.shape)
 
-# -------------------------
-# 5 Merge: Add Product Info (SAFE MERGE)
-# -------------------------
-print("Merging products...")
 
 data = data.merge(
     products[["Product_ID", "Product_Name", "Product_Category"]],
@@ -52,27 +35,16 @@ data = data.merge(
 
 print("Shape after product merge:", data.shape)
 
-# -------------------------
-# 6 Fix Product_ID column
-# -------------------------
+
 if "Product_ID_prod" in data.columns:
     data["Product_ID"] = data["Product_ID_prod"].fillna(data.get("Product_ID"))
     data.drop(columns=["Product_ID_prod"], inplace=True)
 
-# -------------------------
-# 7 Check missing Product_ID
-# -------------------------
 missing_products = data["Product_ID"].isnull().sum()
 print("Missing Product_ID after merge:", missing_products)
 
-# -------------------------
-# 8 Final dataset shape
-# -------------------------
 print("Final dataset shape:", data.shape)
 
-# -------------------------
-# 9 Save final dataset
-# -------------------------
 data.to_csv(
     "data/final/final_analytics_dataset.csv",
     index=False
