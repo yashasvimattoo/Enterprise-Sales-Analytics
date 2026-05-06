@@ -14,32 +14,45 @@ products = products.drop_duplicates()
 products = products.replace(r'^\s*$', np.nan, regex=True)
 
 # -------------------------
-# 3 Fill missing values
+# 3 Rename column (CRITICAL FIX)
+# -------------------------
+products = products.rename(columns={"products": "Product_Name"})
+
+# -------------------------
+# 4 Fill missing values
 # -------------------------
 products["Product_Category"] = products["Product_Category"].fillna("Unknown")
 products["Product_Brand"] = products["Product_Brand"].fillna("Unknown")
+products["Product_Type"] = products["Product_Type"].fillna("Unknown")
+products["Product_Name"] = products["Product_Name"].fillna("Unknown Product")
 
 # -------------------------
-# 4 Standardize text formatting
+# 5 Standardize text formatting
 # -------------------------
 products["Product_Category"] = products["Product_Category"].str.strip().str.title()
 products["Product_Brand"] = products["Product_Brand"].str.strip().str.title()
 products["Product_Type"] = products["Product_Type"].str.strip().str.title()
-products["products"] = products["products"].str.strip().str.title()
+products["Product_Name"] = products["Product_Name"].str.strip().str.title()
 
 # -------------------------
-# 5 Remove weird spacing
+# 6 Remove weird spacing
 # -------------------------
-products["products"] = products["products"].str.replace(r"\s+", " ", regex=True)
+products["Product_Name"] = products["Product_Name"].str.replace(r"\s+", " ", regex=True)
 
 # -------------------------
-# 6 Data validation
+# 7 Create Product_ID (MOST IMPORTANT FIX 🔥)
+# -------------------------
+products = products.reset_index(drop=True)
+products["Product_ID"] = products.index + 1
+
+# -------------------------
+# 8 Data validation
 # -------------------------
 print("Unique Categories:", products["Product_Category"].nunique())
 print("Unique Brands:", products["Product_Brand"].nunique())
 
 # -------------------------
-# 7 Final quality check
+# 9 Final quality check
 # -------------------------
 print("Missing values after cleaning:")
 print(products.isnull().sum())

@@ -10,6 +10,7 @@ customers.to_csv("data/processed/customers.csv", index=False)
 products = df[[
 'Product_Category','Product_Brand','Product_Type','products'
 ]]
+products = products.rename(columns={"products": "Product_Name"})
 
 products.to_csv("data/processed/products.csv", index=False)
 
@@ -18,6 +19,12 @@ sales = df[[
 'Total_Purchases','Amount','Total_Amount','Product_Category',
 'Shipping_Method','Payment_Method','Order_Status','Ratings','Feedback'
 ]]
+
+sales = sales.merge(
+    df[['Transaction_ID', 'products']],
+    on='Transaction_ID',
+    how='left'
+).rename(columns={"products": "Product_Name"})
 
 sales.to_csv("data/processed/sales.csv", index=False)
 

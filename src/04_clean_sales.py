@@ -52,6 +52,25 @@ sales["Shipping_Method"] = sales["Shipping_Method"].str.strip().str.title()
 sales["Order_Status"] = sales["Order_Status"].str.strip().str.title()
 
 # -------------------------
+# 🔥 Product_ID mapping (ADD HERE)
+# -------------------------
+products = pd.read_csv("data/processed/products_cleaned.csv")
+
+# standardize before merge
+sales["Product_Name"] = sales["Product_Name"].str.strip().str.title()
+sales["Product_Category"] = sales["Product_Category"].str.strip().str.title()
+
+products["Product_Name"] = products["Product_Name"].str.strip().str.title()
+products["Product_Category"] = products["Product_Category"].str.strip().str.title()
+
+# merge
+sales = sales.merge(
+    products[["Product_ID", "Product_Name", "Product_Category"]],
+    on=["Product_Name", "Product_Category"],
+    how="left"
+)
+
+# -------------------------
 # 10 Outlier detection (IQR)
 # -------------------------
 Q1 = sales["Total_Amount"].quantile(0.25)
@@ -89,7 +108,6 @@ sales["Total_Purchases"] = sales["Total_Purchases"].fillna(
 # -------------------------
 sales["Year"] = sales["Date"].dt.year
 sales["Month"] = sales["Date"].dt.month
-# fill missing time
 sales["Time"] = sales["Time"].fillna("Unknown")
 
 # -------------------------
@@ -106,3 +124,4 @@ print("\nDataset shape:", sales.shape)
 sales.to_csv("data/processed/sales_cleaned.csv", index=False)
 
 print("\nSales dataset cleaned successfully")
+print("Missing Product_ID:", sales["Product_ID"].isnull().sum())

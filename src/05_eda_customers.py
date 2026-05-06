@@ -14,7 +14,6 @@ print("\nColumns:\n", customers.columns)
 # -------------------------
 print("\nDataset Info:\n")
 print(customers.info())
-
 # -------------------------
 # 3 Age statistics
 # -------------------------

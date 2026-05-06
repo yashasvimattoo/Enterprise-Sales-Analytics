@@ -43,6 +43,12 @@ customers["Country"] = customers["Country"].str.strip().str.title()
 # 6 Clean Gender values
 # -------------------------
 customers["Gender"] = customers["Gender"].str.strip().str.title()
+customers["Gender"] = customers["Gender"].replace({
+    "m": "Male",
+    "male": "Male",
+    "f": "Female",
+    "female": "Female"
+})
 customers["Gender"] = customers["Gender"].fillna("Unknown")
 
 # -------------------------
@@ -65,7 +71,7 @@ customers["Income"] = customers["Income"].fillna("Unknown")
 # -------------------------
 # 9 Zipcode validation
 # -------------------------
-customers["Zipcode"] = customers["Zipcode"].astype(str)
+customers["Zipcode"] = customers["Zipcode"].astype(str).str.strip()
 
 # -------------------------
 # 10 Final check

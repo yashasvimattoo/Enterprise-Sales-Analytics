@@ -27,6 +27,9 @@ print(sales.isnull().sum())
 print("\nRevenue statistics:\n")
 print(sales["Total_Amount"].describe())
 
+print("Average Order Value:", sales["Total_Amount"].mean())
+print("Max Order Value:", sales["Total_Amount"].max())
+
 plt.figure()
 sales["Total_Amount"].plot(kind="hist", bins=30)
 
@@ -44,6 +47,8 @@ plt.close()
 print("\nPayment methods:\n")
 print(sales["Payment_Method"].value_counts())
 
+print("Top Payment Method:", sales["Payment_Method"].value_counts().idxmax())
+
 plt.figure()
 sales["Payment_Method"].value_counts().plot(kind="bar")
 
@@ -60,6 +65,8 @@ plt.close()
 # -------------------------
 print("\nShipping methods:\n")
 print(sales["Shipping_Method"].value_counts())
+
+print("Top Shipping Method:", sales["Shipping_Method"].value_counts().idxmax())
 
 plt.figure()
 sales["Shipping_Method"].value_counts().plot(kind="bar")
@@ -84,6 +91,8 @@ print(sales["Order_Status"].value_counts())
 print("\nRatings distribution:\n")
 print(sales["Ratings"].value_counts())
 
+print("Average Rating:", sales["Ratings"].mean())
+
 plt.figure()
 sales["Ratings"].value_counts().sort_index().plot(kind="bar")
 
@@ -101,13 +110,18 @@ plt.close()
 print("\nSales by product category:\n")
 print(sales["Product_Category"].value_counts())
 
+print("Top Category:", sales["Product_Category"].value_counts().idxmax())
+
 # -------------------------
 # 10 Monthly sales trend
 # -------------------------
-print("\nMonthly sales trend:\n")
-print(sales.groupby("Month")["Total_Amount"].sum().sort_index())
-
 monthly_sales = sales.groupby("Month")["Total_Amount"].sum().sort_index()
+
+print("\nMonthly sales trend:\n")
+print(monthly_sales)
+
+# 🔥 NEW: Peak month
+print("Peak Revenue Month:", monthly_sales.idxmax())
 
 plt.figure()
 monthly_sales.plot(kind="line", marker="o")

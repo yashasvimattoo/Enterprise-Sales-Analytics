@@ -26,6 +26,7 @@ print(products.isnull().sum())
 # -------------------------
 print("\nProduct categories:\n")
 print(products["Product_Category"].value_counts())
+print("Top Category:", products["Product_Category"].value_counts().idxmax())
 
 plt.figure()
 products["Product_Category"].value_counts().plot(kind="bar")
@@ -42,6 +43,7 @@ plt.close()
 # -------------------------
 print("\nTop brands:\n")
 print(products["Product_Brand"].value_counts().head(10))
+print("Top Brand:", products["Product_Brand"].value_counts().idxmax())
 
 plt.figure()
 products["Product_Brand"].value_counts().head(10).plot(kind="bar")

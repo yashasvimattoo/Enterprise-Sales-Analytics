@@ -35,7 +35,7 @@ print("Orders per Customer:", orders_per_customer)
 # -------------------------
 
 # Average price per product
-sales["Avg_Price_Per_Product"] = sales["Total_Amount"] / sales["Total_Purchases"]
+sales["Avg_Price_Per_Product"] = sales["Total_Amount"] / sales["Total_Purchases"].replace(0,1)
 
 # High value order flag
 sales["High_Value_Order"] = sales["Total_Amount"] > 2000
@@ -55,16 +55,19 @@ revenue_by_category = sales.groupby("Product_Category")["Total_Amount"].sum()
 
 print("\n===== REVENUE BY CATEGORY =====\n")
 print(revenue_by_category)
+print("Top Revenue Category:", revenue_by_category.idxmax())
 
 revenue_by_payment = sales.groupby("Payment_Method")["Total_Amount"].sum()
 
 print("\n===== REVENUE BY PAYMENT METHOD =====\n")
 print(revenue_by_payment)
+print("Top Payment Revenue:", revenue_by_payment.idxmax())
 
 revenue_by_shipping = sales.groupby("Shipping_Method")["Total_Amount"].sum()
 
 print("\n===== REVENUE BY SHIPPING METHOD =====\n")
 print(revenue_by_shipping)
+print("Top Shipping Revenue:", revenue_by_shipping.idxmax())
 
 # -------------------------
 # 5 MONTHLY REVENUE TREND
@@ -74,6 +77,7 @@ monthly_revenue = sales.groupby("Month")["Total_Amount"].sum()
 
 print("\n===== MONTHLY REVENUE =====\n")
 print(monthly_revenue)
+print("Peak Revenue Month:", monthly_revenue.idxmax())
 
 # -------------------------
 # 6 CUSTOMER ANALYTICS
@@ -84,6 +88,7 @@ customer_lifetime_value = sales.groupby("Customer_ID")["Total_Amount"].sum()
 
 print("\n===== CUSTOMER LIFETIME VALUE =====\n")
 print(customer_lifetime_value.head())
+print("Top Customer CLV:", customer_lifetime_value.max())
 
 # Purchase frequency
 purchase_frequency = sales.groupby("Customer_ID")["Transaction_ID"].count()
@@ -118,6 +123,7 @@ revenue_percent = (category_revenue / category_revenue.sum()) * 100
 
 print("\n===== CATEGORY REVENUE CONTRIBUTION (%) =====\n")
 print(revenue_percent)
+print("Highest Contribution Category:", revenue_percent.idxmax())
 
 # -------------------------
 # 9 SAVE FEATURE DATASET

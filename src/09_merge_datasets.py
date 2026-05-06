@@ -2,17 +2,31 @@ import pandas as pd
 
 print("Loading datasets...")
 
+# -------------------------
+# 1 Load datasets
+# -------------------------
 customers = pd.read_csv("data/processed/customers_cleaned.csv")
 products = pd.read_csv("data/processed/products_cleaned.csv")
 sales = pd.read_csv("data/processed/sales_kpi_features.csv")
 
 # -------------------------
-# FIX 1: remove duplicate product categories
+# 2 Standardize text (IMPORTANT)
 # -------------------------
-products = products.drop_duplicates(subset="Product_Category")
+sales["Product_Name"] = sales["Product_Name"].str.strip().str.title()
+sales["Product_Category"] = sales["Product_Category"].str.strip().str.title()
+
+products["Product_Name"] = products["Product_Name"].str.strip().str.title()
+products["Product_Category"] = products["Product_Category"].str.strip().str.title()
 
 # -------------------------
-# Merge 1: Sales + Customers
+# 3 Remove duplicate products (CRITICAL FIX)
+# -------------------------
+products = products.drop_duplicates(
+    subset=["Product_Name", "Product_Category"]
+)
+
+# -------------------------
+# 4 Merge: Sales + Customers
 # -------------------------
 print("Merging sales with customers...")
 
@@ -25,20 +39,39 @@ data = sales.merge(
 print("Shape after customer merge:", data.shape)
 
 # -------------------------
-# Merge 2: Add product info
+# 5 Merge: Add Product Info (SAFE MERGE)
 # -------------------------
 print("Merging products...")
 
 data = data.merge(
-    products,
-    on="Product_Category",
-    how="left"
+    products[["Product_ID", "Product_Name", "Product_Category"]],
+    on=["Product_Name", "Product_Category"],
+    how="left",
+    suffixes=("", "_prod")
 )
 
+print("Shape after product merge:", data.shape)
+
+# -------------------------
+# 6 Fix Product_ID column
+# -------------------------
+if "Product_ID_prod" in data.columns:
+    data["Product_ID"] = data["Product_ID_prod"].fillna(data.get("Product_ID"))
+    data.drop(columns=["Product_ID_prod"], inplace=True)
+
+# -------------------------
+# 7 Check missing Product_ID
+# -------------------------
+missing_products = data["Product_ID"].isnull().sum()
+print("Missing Product_ID after merge:", missing_products)
+
+# -------------------------
+# 8 Final dataset shape
+# -------------------------
 print("Final dataset shape:", data.shape)
 
 # -------------------------
-# Save final dataset
+# 9 Save final dataset
 # -------------------------
 data.to_csv(
     "data/final/final_analytics_dataset.csv",
