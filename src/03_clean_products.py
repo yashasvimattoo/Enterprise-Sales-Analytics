@@ -9,7 +9,6 @@ products = products.drop_duplicates()
 
 products = products.replace(r'^\s*$', np.nan, regex=True)
 
-products = products.rename(columns={"products": "Product_Name"})
 
 products["Product_Category"] = products["Product_Category"].fillna("Unknown")
 products["Product_Brand"] = products["Product_Brand"].fillna("Unknown")

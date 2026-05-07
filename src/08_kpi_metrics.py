@@ -104,9 +104,7 @@ print(top_customers)
 
 #  REVENUE CONTRIBUTION 
 
-category_revenue = sales.groupby("Product_Category")["Total_Amount"].sum()
-
-revenue_percent = (category_revenue / category_revenue.sum()) * 100
+revenue_percent = (revenue_by_category / revenue_by_category.sum()) * 100
 
 print("CATEGORY REVENUE CONTRIBUTION")
 print(revenue_percent)
