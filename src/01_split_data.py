@@ -1,5 +1,6 @@
 import pandas as pd
 df = pd.read_csv("data/raw/retail_data.csv")
+print(df.shape)
 customers = df[[
 'Customer_ID','Name','Email','Phone','Address','City','State',
 'Zipcode','Country','Age','Gender','Income','Customer_Segment'
@@ -16,7 +17,7 @@ products.to_csv("data/processed/products.csv", index=False)
 
 sales = df[[
 'Transaction_ID','Customer_ID','Date','Year','Month','Time',
-'Total_Purchases','Amount','Total_Amount','Product_Category',
+'Total_Purchases','Amount','Total_Amount','Product_Category','Product_Brand',
 'Shipping_Method','Payment_Method','Order_Status','Ratings','Feedback','products'
 ]]
 

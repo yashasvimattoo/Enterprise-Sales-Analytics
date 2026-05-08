@@ -4,9 +4,6 @@ import numpy as np
 products = pd.read_csv("data/processed/products.csv")
 
 
-products = products.drop_duplicates()
-
-
 products = products.replace(r'^\s*$', np.nan, regex=True)
 
 
@@ -22,6 +19,9 @@ products["Product_Name"] = products["Product_Name"].str.strip().str.title()
 
 products["Product_Name"] = products["Product_Name"].str.replace(r"\s+", " ", regex=True)
 
+products = products.drop_duplicates(
+    subset=["Product_Name", "Product_Category", "Product_Brand"]
+)
 
 # Product_ID 
 

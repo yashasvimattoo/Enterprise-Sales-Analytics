@@ -7,14 +7,12 @@ sales = pd.read_csv("data/processed/sales_kpi_features.csv")
 
 sales["Product_Name"] = sales["Product_Name"].str.strip().str.title()
 sales["Product_Category"] = sales["Product_Category"].str.strip().str.title()
+sales["Product_Brand"] = sales["Product_Brand"].str.strip().str.title()
 
 products["Product_Name"] = products["Product_Name"].str.strip().str.title()
 products["Product_Category"] = products["Product_Category"].str.strip().str.title()
+products["Product_Brand"] = products["Product_Brand"].str.strip().str.title()
 
-
-products = products.drop_duplicates(
-    subset=["Product_Name", "Product_Category"]
-)
 
 
 data = sales.merge(
@@ -27,8 +25,8 @@ print("Shape after customer merge:", data.shape)
 
 
 data = data.merge(
-    products[["Product_ID", "Product_Name", "Product_Category"]],
-    on=["Product_Name", "Product_Category"],
+    products[["Product_ID", "Product_Name", "Product_Category","Product_Brand"]],
+    on=["Product_Name", "Product_Category","Product_Brand"],
     how="left",
     suffixes=("", "_prod")
 )
